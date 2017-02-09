@@ -1,6 +1,5 @@
 'use strict';
 
-var Field = require('../field/Field');
 var Player = require('../player/Player');
 var Sockets = require('../../Sockets');
 
