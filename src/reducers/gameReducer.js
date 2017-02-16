@@ -4,9 +4,10 @@ import initialState from './initialState';
 export default function gameReducer(state = initialState.game, action) {
   switch(action.type) {
     case types.UPDATE_PHASE: {
+      console.log(action);
       return Object.assign({}, state, {
         phase: {
-          title: action.data
+          id: action.data.id
         }
       });
     }

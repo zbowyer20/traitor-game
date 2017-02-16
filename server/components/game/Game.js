@@ -2,14 +2,16 @@
 
 var Player = require('../player/Player');
 var Sockets = require('../../Sockets');
+var Phases = require('../phases/Phases');
 
 function Game() {
   let self = {
-    phase: "PHASE_START",
     settings: {
       ready: false
     }
   };
+
+  Phases.continue();
 
   self.players = {
     list: {},
@@ -61,11 +63,15 @@ function Game() {
 
   };
 
+  self.continue = function() {
+    Phases.continue();
+  }
+
   self.getPublicPack = function() {
     return {
       ids: self.players.ids.list,
       data: {
-        phase: self.phase,
+        phase: Phases.getCurrentPhase().getPack(),
         settings: self.settings,
         players: self.players.getPublicPack()
       }

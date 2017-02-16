@@ -29,10 +29,10 @@ class GamePage extends React.Component {
 
     return (
       <div>
-        <Phase phase={this.props.game.phase.title}/>
+        <Phase phase={this.props.game.phase.id}/>
         {players.opponents.length > 0 && <Players players={players.opponents}/>}
         {players.me.object && <Me player={players.me.object} />}
-        {players.me.object && <Actions player={players.me.object} game={this.props.game} />}
+        {players.me.object && <Actions player={players.me.object} game={this.props.game} actions={this.props.actions}/>}
       </div>
     );
   }

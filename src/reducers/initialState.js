@@ -1,7 +1,7 @@
 export default {
   game: {
     phase: {
-      title: "Loading..."
+      id: "Loading..."
     },
     settings: {
       ready: false
