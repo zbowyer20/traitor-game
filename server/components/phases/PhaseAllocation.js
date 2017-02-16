@@ -1,14 +1,15 @@
 'use strict';
 
-function PhaseStart() {
+function PhaseAllocation() {
   let self = {
-    id: "PHASE_START",
-    label: "Players joining..."
+    id: "PHASE_ALLOCATION",
+    label: "Allocating roles"
   };
-  let stages = ["wait"];
+  let stages = ["setAlignment"];
 
   self.next = function() {
     let stage = stages.pop();
+    self.complete = !stages.length;
     return stage;
   }
 
@@ -23,4 +24,4 @@ function PhaseStart() {
   return self;
 }
 
-module.exports = PhaseStart;
+module.exports = PhaseAllocation;

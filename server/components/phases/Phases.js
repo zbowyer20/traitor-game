@@ -1,5 +1,6 @@
 'use strict';
 var PhaseStart = require('./PhaseStart');
+var PhaseAllocation = require('./PhaseAllocation');
 
 module.exports = {
   current: {
@@ -9,10 +10,10 @@ module.exports = {
 
   continue() {
     if (!this.current.phase || this.current.phase.isComplete()) {
-      this.current.id = this.current.id ? Phases.list[Phrases.list[this.current.id].next].id : "PHASE_START";
-      this.current.phase = new this.list.PHASE_START["phase"]();
+      this.current.id = this.current.id ? this.list[this.current.id].next : "PHASE_START";
+      this.current.phase = new this.list[this.current.id]["phase"]();
     }
-    this.current.phase.next();
+    return this.current.phase.next();
   },
 
   getCurrentPhase() {
@@ -23,6 +24,10 @@ module.exports = {
     PHASE_START: {
       phase: PhaseStart,
       next: "PHASE_ALLOCATION"
+    },
+    PHASE_ALLOCATION: {
+      phase: PhaseAllocation,
+      next: "PHASE_TRAITOR_REVEAL"
     }
   }
 }

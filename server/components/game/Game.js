@@ -3,6 +3,8 @@
 var Player = require('../player/Player');
 var Sockets = require('../../Sockets');
 var Phases = require('../phases/Phases');
+var shuffle = require('shuffle-array');
+var clone = require('clone');
 
 function Game() {
   let self = {
@@ -10,8 +12,6 @@ function Game() {
       ready: false
     }
   };
-
-  Phases.continue();
 
   self.players = {
     list: {},
@@ -42,9 +42,7 @@ function Game() {
     * @returns {Player} the player, or undefined if they are not found
     */
     get: function(pid) {
-      return self.players.find(player => {
-        return player.id == pid;
-      })
+      return self.players.list[pid];
     },
 
     remove: function(pid) {
@@ -52,31 +50,53 @@ function Game() {
       self.players.ids.set();
     },
 
-    getPublicPack: function() {
+    getPublicPack: function(showAlignment) {
       var pack = [];
       for (var i = 0; i < self.players.ids.list.length; i++) {
         var id = self.players.ids.list[i];
-        pack.push(self.players.list[id].getPublicPack());
+        pack.push(self.players.list[id].getPublicPack(showAlignment));
       }
       return pack;
     }
-
   };
 
   self.continue = function() {
-    Phases.continue();
+    self[Phases.continue()]();
+    Sockets.emitGame(self);
   }
 
-  self.getPublicPack = function() {
+  self.wait = function() {
+
+  }
+
+  self.setAlignment = function() {
+    let ids = clone(self.players.ids.list);
+    shuffle(ids);
+    for (var i = 0; i < ids.length; i++) {
+      let alignment = i < 2;
+      self.players.list[ids[i]].setAlignment(alignment)
+    }
+  }
+
+  self.getPublicPack = function(id) {
+    let showAlignment = self.players.list[id].getAlignment();
     return {
-      ids: self.players.ids.list,
-      data: {
-        phase: Phases.getCurrentPhase().getPack(),
-        settings: self.settings,
-        players: self.players.getPublicPack()
+      phase: Phases.getCurrentPhase().getPack(),
+      settings: self.settings,
+      players: self.players.getPublicPack(showAlignment)
+    }
+  }
+
+  self.getPrivatePack = function(id) {
+    return {
+      me: {
+        id: id,
+        alignment: self.players.get(id).getAlignment()
       }
     }
   }
+
+  self.continue();
 
   return self;
 }

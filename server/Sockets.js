@@ -1,3 +1,5 @@
+'use strict';
+
 var Player = require('./components/player/Player');
 
 var Sockets = {
@@ -10,8 +12,7 @@ var Sockets = {
       console.log("Got new connection from: " + socket.id);
       Sockets.list[socket.id] = socket;
       game.players.add(socket.id);
-      Sockets.emitPublic(game);
-      Sockets.emitPrivate(game, socket.id);
+      Sockets.emitGame(game, socket.id);
 
       // when receiving a flag from a player that they are ready, flag them
       // in game
@@ -41,16 +42,20 @@ var Sockets = {
     }
   },
 
-  emitPublic: function(game) {
-    Sockets.emitToList(game.getPublicPack());
+  emitPublic: function(game, id) {
+    Sockets.emit(id, game.getPublicPack(id));
   },
 
   emitPrivate: function(game, id) {
-    Sockets.emit(id, {
-      me: {
-        id: id
-      }
-    });
+    Sockets.emit(id, game.getPrivatePack(id));
+  },
+
+  emitGame: function(game) {
+    let ids = game.players.ids.list;
+    for (var i = 0; i < ids.length; i++) {
+      Sockets.emitPublic(game, ids[i])
+      Sockets.emitPrivate(game, ids[i]);
+    }
   }
 }
 

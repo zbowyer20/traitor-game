@@ -4,7 +4,6 @@ import initialState from './initialState';
 export default function gameReducer(state = initialState.game, action) {
   switch(action.type) {
     case types.UPDATE_PHASE: {
-      console.log(action);
       return Object.assign({}, state, {
         phase: {
           id: action.data.id
@@ -23,7 +22,7 @@ export default function gameReducer(state = initialState.game, action) {
     }
     case types.UPDATE_ME: {
       return Object.assign({}, state, {
-        me: action.data
+        me: action.data,
       })
     }
     default: {

@@ -21,10 +21,11 @@ function Player(id, isHost) {
   * Get the player's publically visible information
   * @returns {Object} currently containing the player's id, visible hand and cp.
   */
-  self.getPublicPack = function() {
+  self.getPublicPack = function(showAlignment) {
     return {
       id: self.id,
-      isHost: self.isHost
+      isHost: self.isHost,
+      alignment: showAlignment ? self.getAlignment() : false
     };
   }
 
