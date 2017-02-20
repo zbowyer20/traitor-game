@@ -5,39 +5,27 @@ function Player(id, isHost) {
   var self = {
     id: id,
     isHost: isHost,
-    alignment: null
+    traitor: false
   };
 
-  self.setAlignment = function(alignment) {
-    self.alignment = alignment;
+  self.setTraitor = function(isTraitor) {
+    self.traitor = isTraitor;
     return self;
   };
 
-  self.getAlignment = function() {
-    return self.alignment;
+  self.isTraitor = function() {
+    return self.traitor;
   }
 
   /**
   * Get the player's publically visible information
   * @returns {Object} currently containing the player's id, visible hand and cp.
   */
-  self.getPublicPack = function(showAlignment) {
+  self.getPack = function(options) {
     return {
       id: self.id,
       isHost: self.isHost,
-      alignment: showAlignment ? self.getAlignment() : false
-    };
-  }
-
-  /**
-  * Get the player's full data
-  * @returns {Object} currently containing the player's id, hand and cp.
-  */
-  self.getPack = function() {
-    return {
-      id: self.id,
-      alignment: self.getAlignment(),
-      isHost: self.isHost
+      isTraitor: (options.allies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false
     };
   }
 

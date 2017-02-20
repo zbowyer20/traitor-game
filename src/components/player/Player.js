@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const Player = ({player}) => {
   let classes = classNames({
     "player": true,
-    "evil": player.alignment || false
+    "traitor": player.isTraitor || false
   });
 
   return (

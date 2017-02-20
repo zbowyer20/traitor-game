@@ -1,26 +1,19 @@
 'use strict';
 
-function PhaseStart() {
-  let self = {
-    id: "PHASE_START",
-    label: "Players joining..."
-  };
-  let stages = ["wait"];
+var Phase = require('./Phase');
+var Moves = require('../game/Moves');
 
-  self.next = function() {
-    let stage = stages.pop();
-    return stage;
+class PhaseStart extends Phase {
+  constructor() {
+    super("PHASE_START", "Players joining...", [
+      {
+        fn: Moves.wait,
+        parameters: {},
+        emit: {},
+        duration: -1
+      }
+    ]);
   }
-
-  self.isComplete = function() {
-    return !stages.length;
-  }
-
-  self.getPack = function() {
-    return {id: self.id};
-  }
-
-  return self;
 }
 
 module.exports = PhaseStart;

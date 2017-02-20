@@ -1,6 +1,7 @@
 'use strict';
 var PhaseStart = require('./PhaseStart');
 var PhaseAllocation = require('./PhaseAllocation');
+var PhaseRevealAllies = require('./PhaseRevealAllies');
 
 module.exports = {
   current: {
@@ -27,7 +28,11 @@ module.exports = {
     },
     PHASE_ALLOCATION: {
       phase: PhaseAllocation,
-      next: "PHASE_TRAITOR_REVEAL"
+      next: "PHASE_REVEAL_ALLIES"
+    },
+    PHASE_REVEAL_ALLIES: {
+      phase: PhaseRevealAllies,
+      next: "PHASE_BEGIN_GAME"
     }
   }
 }

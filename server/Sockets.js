@@ -11,7 +11,7 @@ var Sockets = {
     io.sockets.on('connection', function(socket) {
       console.log("Got new connection from: " + socket.id);
       Sockets.list[socket.id] = socket;
-      game.players.add(socket.id);
+      game.addPlayer(socket.id);
       Sockets.emitGame(game, socket.id);
 
       // when receiving a flag from a player that they are ready, flag them
@@ -42,19 +42,19 @@ var Sockets = {
     }
   },
 
-  emitPublic: function(game, id) {
-    Sockets.emit(id, game.getPublicPack(id));
+  emitPublic: function(game, options, id) {
+    Sockets.emit(id, game.getPublicPack(id, options));
   },
 
-  emitPrivate: function(game, id) {
-    Sockets.emit(id, game.getPrivatePack(id));
+  emitPrivate: function(game, options, id) {
+    Sockets.emit(id, game.getPrivatePack(id, options));
   },
 
-  emitGame: function(game) {
-    let ids = game.players.ids.list;
+  emitGame: function(game, options) {
+    let ids = game.players.ids();
     for (var i = 0; i < ids.length; i++) {
-      Sockets.emitPublic(game, ids[i])
-      Sockets.emitPrivate(game, ids[i]);
+      Sockets.emitPublic(game, options, ids[i])
+      Sockets.emitPrivate(game, options, ids[i]);
     }
   }
 }

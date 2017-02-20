@@ -1,97 +1,47 @@
 'use strict';
 
-var Player = require('../player/Player');
+var Players = require('../player/Players');
 var Sockets = require('../../Sockets');
 var Phases = require('../phases/Phases');
-var shuffle = require('shuffle-array');
-var clone = require('clone');
 
 function Game() {
   let self = {
+    players: new Players(),
     settings: {
       ready: false
     }
   };
 
-  self.players = {
-    list: {},
-    ids: {
-      list: [],
-
-      /**
-      * Set the list of ids of playing players
-      */
-      set: function() {
-        self.players.ids.list = Object.keys(self.players.list);
-      },
-    },
-
-    /**
-    * Add a player to the game
-    * @param pid {String} The id of the player to add
-    */
-    add: function(pid) {
-      self.players.list[pid] = Player(pid, !self.players.ids.list.length);
-      self.players.ids.set();
-      self.settings.ready = self.players.ids.list.length == 5
-    },
-
-    /**
-    * Get a playing player by their id
-    * @param pid {String} the id of the player to get
-    * @returns {Player} the player, or undefined if they are not found
-    */
-    get: function(pid) {
-      return self.players.list[pid];
-    },
-
-    remove: function(pid) {
-      delete self.players.list[pid];
-      self.players.ids.set();
-    },
-
-    getPublicPack: function(showAlignment) {
-      var pack = [];
-      for (var i = 0; i < self.players.ids.list.length; i++) {
-        var id = self.players.ids.list[i];
-        pack.push(self.players.list[id].getPublicPack(showAlignment));
-      }
-      return pack;
-    }
-  };
+  self.addPlayer = function(pid) {
+    self.players.add(pid);
+    self.settings.ready = self.players.ids().length == 5;
+  }
 
   self.continue = function() {
-    self[Phases.continue()]();
-    Sockets.emitGame(self);
-  }
-
-  self.wait = function() {
-
-  }
-
-  self.setAlignment = function() {
-    let ids = clone(self.players.ids.list);
-    shuffle(ids);
-    for (var i = 0; i < ids.length; i++) {
-      let alignment = i < 2;
-      self.players.list[ids[i]].setAlignment(alignment)
+    let move = Phases.continue();
+    move.parameters.players = self.players;
+    move.fn.bind(null, move.parameters)();
+    Sockets.emitGame(self, move.emit);
+    if (move.duration > -1) {
+      setTimeout(self.continue, move.duration);
     }
   }
 
-  self.getPublicPack = function(id) {
-    let showAlignment = self.players.list[id].getAlignment();
+  self.getPublicPack = function(id, options) {
     return {
       phase: Phases.getCurrentPhase().getPack(),
       settings: self.settings,
-      players: self.players.getPublicPack(showAlignment)
+      players: self.players.getPack({
+        owner: self.players.get(id),
+        allies: options.allies || false
+      })
     }
   }
 
-  self.getPrivatePack = function(id) {
+  self.getPrivatePack = function(id, options) {
     return {
       me: {
         id: id,
-        alignment: self.players.get(id).getAlignment()
       }
     }
   }
