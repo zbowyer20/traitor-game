@@ -5,6 +5,10 @@ function setTraitors(params) {
   params.players.setTraitors();
 }
 
+function setPlayerOrder(params) {
+  params.players.setOrder();
+}
+
 function revealAllies() {
 
 }
@@ -12,5 +16,6 @@ function revealAllies() {
 module.exports = {
   wait: wait,
   setTraitors: setTraitors,
-  revealAllies: revealAllies
+  revealAllies: revealAllies,
+  setPlayerOrder: setPlayerOrder
 };

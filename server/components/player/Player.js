@@ -5,7 +5,8 @@ function Player(id, isHost) {
   var self = {
     id: id,
     isHost: isHost,
-    traitor: false
+    traitor: false,
+    order: 0
   };
 
   self.setTraitor = function(isTraitor) {
@@ -17,6 +18,10 @@ function Player(id, isHost) {
     return self.traitor;
   }
 
+  self.setOrder = function(order) {
+    self.order = order;
+  }
+
   /**
   * Get the player's publically visible information
   * @returns {Object} currently containing the player's id, visible hand and cp.
@@ -25,7 +30,8 @@ function Player(id, isHost) {
     return {
       id: self.id,
       isHost: self.isHost,
-      isTraitor: (options.allies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false
+      isTraitor: (options.allies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
+      order: self.order
     };
   }
 

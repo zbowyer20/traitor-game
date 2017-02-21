@@ -8,6 +8,12 @@ class PhaseStart extends Phase {
   constructor() {
     super(Properties.PHASE_START.id, [
       {
+        fn: Moves.setPlayerOrder,
+        parameters: {},
+        emit: {},
+        duration: 5000
+      },
+      {
         fn: Moves.wait,
         parameters: {},
         emit: {},

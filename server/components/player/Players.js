@@ -29,11 +29,23 @@ function Players() {
     return Object.keys(self.set);
   }
 
+  function getShuffledIds() {
+    return shuffle(clone(self.ids()));
+  }
+
   self.setTraitors = function() {
-    let ids = shuffle(clone(self.ids()));
+    let ids = getShuffledIds();
     ids.splice(0, Math.floor(ids.length / 2)).map(id => {
       self.set[id].setTraitor(true);
     });
+  }
+
+  self.setOrder = function() {
+    let i = 1;
+    getShuffledIds().map(id => {
+      self.set[id].setOrder(i);
+      i++;
+    })
   }
 
   self.getPack = function(options) {

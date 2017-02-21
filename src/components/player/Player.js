@@ -10,7 +10,7 @@ const Player = ({player}) => {
 
   return (
     <div className={classes}>
-      {player.id}
+      {player.id} {player.order > 0 && "(Order: " + player.order + ")"}
     </div>
   );
 };
