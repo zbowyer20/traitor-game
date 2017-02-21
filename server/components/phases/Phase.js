@@ -1,9 +1,11 @@
 'use strict';
 
+var Properties = require('../../constants/PhaseProperties');
+
 class Phase {
-  constructor(id, label, stages) {
+  constructor(id, stages) {
     this.id = id;
-    this.label = label;
+    this.label = Properties[id].label;
     this.stages = stages;
   }
 
