@@ -13,9 +13,14 @@ function revealAllies() {
 
 }
 
+function choosePlayersForMission() {
+
+}
+
 module.exports = {
   wait: wait,
   setTraitors: setTraitors,
   revealAllies: revealAllies,
-  setPlayerOrder: setPlayerOrder
+  setPlayerOrder: setPlayerOrder,
+  choosePlayersForMission: choosePlayersForMission
 };

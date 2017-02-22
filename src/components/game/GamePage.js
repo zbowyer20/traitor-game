@@ -14,10 +14,10 @@ class GamePage extends React.Component {
 
   render() {
     let players = {
-      all: this.props.game.players,
+      all: this.props.players,
       opponents: [],
       me: {
-        id: this.props.game.me.id,
+        id: this.props.me.id,
         object: null
       }
     }
@@ -29,24 +29,30 @@ class GamePage extends React.Component {
 
     return (
       <div>
-        <Phase phase={this.props.game.phase.id}/>
-        {players.opponents.length > 0 && <Players players={players.opponents}/>}
+        <Phase phase={this.props.phase.id}/>
+        {players.opponents.length > 0 && <Players players={players.opponents} settings={this.props.settings} me={players.me.object} phase={this.props.phase} actions={this.props.actions}/>}
         {players.me.object && <Me player={players.me.object} />}
-        {players.me.object && <Actions player={players.me.object} game={this.props.game} actions={this.props.actions}/>}
+        {players.me.object && <Actions player={players.me.object} game={this.props} actions={this.props.actions}/>}
       </div>
     );
   }
 }
 
 GamePage.propTypes = {
-  game: PropTypes.object.isRequired
+  players: PropTypes.array.isRequired,
+  phase: PropTypes.object.isRequired,
+  me: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired
 };
 
 // ownProps is a reference to the component's own properties
 function mapStateToProps(state) {
   // lets us access courses using props.courses
   return {
-      game: state.game
+      players: state.players,
+      phase: state.phase,
+      me: state.me,
+      settings: state.settings
   };
 }
 

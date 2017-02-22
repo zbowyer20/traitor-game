@@ -13,7 +13,7 @@ class PhaseRevealAllies extends Phase {
         emit: {
           allies: true
         },
-        duration: -1
+        duration: 5000
       }
     ]);
   }

@@ -1,8 +1,14 @@
 import {combineReducers} from 'redux';
-import game from './gameReducer';
+import players from './playerReducer';
+import phase from './phaseReducer';
+import settings from './settingsReducer';
+import me from './meReducer';
 
 const rootReducer = combineReducers({
-  game
+  players,
+  phase,
+  settings,
+  me
 });
 
 export default rootReducer;

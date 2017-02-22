@@ -10,5 +10,9 @@ module.exports = {
   PHASE_REVEAL_ALLIES: {
     id: "PHASE_REVEAL_ALLIES",
     label: "Traitors communicating..."
+  },
+  PHASE_CHOOSE_PLAYERS_FOR_MISSION: {
+    id: "PHASE_CHOOSE_PLAYERS_FOR_MISSION",
+    label: "Choosing players for mission..."
   }
 };

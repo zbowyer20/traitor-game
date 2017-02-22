@@ -6,6 +6,7 @@ function Player(id, isHost) {
     id: id,
     isHost: isHost,
     traitor: false,
+    leader: false,
     order: 0
   };
 
@@ -22,6 +23,18 @@ function Player(id, isHost) {
     self.order = order;
   }
 
+  self.getOrder = function() {
+    return self.order;
+  }
+
+  self.isLeader = function() {
+    return self.leader;
+  }
+
+  self.setLeader = function(leader) {
+    self.leader = leader;
+  }
+
   /**
   * Get the player's publically visible information
   * @returns {Object} currently containing the player's id, visible hand and cp.
@@ -31,6 +44,7 @@ function Player(id, isHost) {
       id: self.id,
       isHost: self.isHost,
       isTraitor: (options.allies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
+      isLeader: self.leader,
       order: self.order
     };
   }

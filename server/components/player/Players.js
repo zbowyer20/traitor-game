@@ -5,7 +5,8 @@ var clone = require('clone');
 
 function Players() {
   var self = {
-    set: {}
+    set: {},
+    leader: 1
   };
 
   self.add = function(pid) {
@@ -46,6 +47,19 @@ function Players() {
       self.set[id].setOrder(i);
       i++;
     })
+    setLeader();
+  }
+
+  function setLeader() {
+    self.ids().map(id => {
+      let player = self.set[id];
+      player.setLeader(player.getOrder() == self.leader);
+    })
+  }
+
+  self.nextLeader = function() {
+    self.currentLeader = self.currentLeader == self.ids().length ? 1 : self.currentLeader++;
+    setLeader();
   }
 
   self.getPack = function(options) {

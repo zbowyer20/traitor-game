@@ -1,14 +1,13 @@
 export default {
-  game: {
-    phase: {
-      id: "Loading..."
-    },
-    settings: {
-      ready: false
-    },
-    players: [],
-    me: {
-      id: null
-    }
+  phase: {
+    id: "Loading..."
+  },
+  settings: {
+    ready: false,
+    selectedPlayers: []
+  },
+  players: [],
+  me: {
+    id: null
   }
 };

@@ -2,6 +2,7 @@
 var PhaseStart = require('./PhaseStart');
 var PhaseAllocation = require('./PhaseAllocation');
 var PhaseRevealAllies = require('./PhaseRevealAllies');
+var PhaseChoosePlayersForMission = require('./PhaseChoosePlayersForMission');
 
 module.exports = {
   current: {
@@ -32,7 +33,11 @@ module.exports = {
     },
     PHASE_REVEAL_ALLIES: {
       phase: PhaseRevealAllies,
-      next: "PHASE_BEGIN_GAME"
+      next: "PHASE_CHOOSE_PLAYERS_FOR_MISSION"
+    },
+    PHASE_CHOOSE_PLAYERS_FOR_MISSION: {
+      phase: PhaseChoosePlayersForMission,
+      next: "PHASE_VOTE"
     }
   }
 }

@@ -3,4 +3,5 @@ export const UPDATE_PLAYERS = 'UPDATE_PLAYERS';
 export const UPDATE_PHASE = 'UPDATE_PHASE';
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const UPDATE_ME = 'UPDATE_ME';
+export const TOGGLE_MISSION_PLAYER = 'TOGGLE_MISSION_PLAYER';
 export const END_GAME = 'END_GAME';

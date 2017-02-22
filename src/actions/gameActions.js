@@ -31,6 +31,12 @@ export function startGame() {
   };
 }
 
+export function choosePlayerForMission(id) {
+  return dispatch => {
+    dispatch({type: types.TOGGLE_MISSION_PLAYER, id});
+  }
+}
+
 export function ready() {
   return {type: types.READY};
 }
