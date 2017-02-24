@@ -33,7 +33,7 @@ function Game() {
       settings: self.settings,
       players: self.players.getPack({
         owner: self.players.get(id),
-        allies: options.allies || false
+        hideAllies: options.hideAllies || false
       })
     }
   }

@@ -43,7 +43,7 @@ function Player(id, isHost) {
     return {
       id: self.id,
       isHost: self.isHost,
-      isTraitor: (options.allies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
+      isTraitor: (!options.hideAllies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
       isLeader: self.leader,
       order: self.order
     };

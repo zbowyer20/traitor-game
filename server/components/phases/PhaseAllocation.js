@@ -10,7 +10,9 @@ class PhaseAllocation extends Phase {
       {
         fn: Moves.setTraitors,
         parameters: {},
-        emit: {},
+        emit: {
+          hideAllies: true,
+        },
         duration: 5000
       }
     ]);
