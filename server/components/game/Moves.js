@@ -13,8 +13,12 @@ function revealAllies() {
 
 }
 
-function choosePlayersForMission() {
-
+function choosePlayersForMission(params) {
+  if (params.settings.round == 1 || params.settings.round == 3) {
+    params.settings.waiting.players = 2;
+  } else {
+    params.settings.waiting.players = 3;
+  }
 }
 
 module.exports = {

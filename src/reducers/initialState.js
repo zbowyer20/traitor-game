@@ -4,7 +4,10 @@ export default {
   },
   settings: {
     ready: false,
-    selectedPlayers: []
+    selectedPlayers: [],
+    waiting: {
+      selected: 0
+    }
   },
   players: [],
   me: {

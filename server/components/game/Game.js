@@ -8,7 +8,11 @@ function Game() {
   let self = {
     players: new Players(),
     settings: {
-      ready: false
+      round: 1,
+      ready: false,
+      waiting: {
+        selected: 0
+      }
     }
   };
 
@@ -20,6 +24,7 @@ function Game() {
   self.continue = function() {
     let move = Phases.continue();
     move.parameters.players = self.players;
+    move.parameters.settings = self.settings;
     move.fn.bind(null, move.parameters)();
     Sockets.emitGame(self, move.emit);
     if (move.duration > -1) {

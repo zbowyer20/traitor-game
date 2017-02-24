@@ -5,7 +5,9 @@ export default function settingsReducer(state = initialState.settings, action) {
   switch(action.type) {
     case types.UPDATE_SETTINGS: {
       return Object.assign({}, state, {
-        ready: action.data.ready
+        ready: action.data.ready,
+        round: action.data.round,
+        waiting: action.data.waiting
       });
     }
     case types.TOGGLE_MISSION_PLAYER: {
