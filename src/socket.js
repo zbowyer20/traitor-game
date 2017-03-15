@@ -9,6 +9,7 @@ export default function (store) {
       store.dispatch(actions.updatePhase(data.phase));
     }
     if (data.players) {
+      console.log(data);
       store.dispatch(actions.updatePlayers(data.players))
     }
     if (data.settings) {

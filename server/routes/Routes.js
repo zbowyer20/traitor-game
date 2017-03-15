@@ -11,7 +11,24 @@ function Routes(server, app, game) {
   */
   app.get('/api/game/start', function(req, res) {
     game.continue();
+    res.send();
   });
+
+  app.post('/api/game/choosePlayersForMission', function(req, res) {
+    game.setPlayersForMission(req.body.ids);
+    game.continue();
+    res.send();
+  });
+
+  app.post('/api/game/vote', function(req, res) {
+    game.vote(req.body.id, req.body.approve);
+    res.send();
+  });
+
+  app.post('/api/game/mission', function(req, res) {
+    game.mission(req.body.id, req.body.succeed);
+    res.send();
+  })
 }
 
 module.exports = Routes;

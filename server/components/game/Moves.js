@@ -1,3 +1,5 @@
+var Properties = require('../../constants/GameProperties');
+
 function wait(params) {
 }
 
@@ -14,11 +16,7 @@ function revealAllies() {
 }
 
 function choosePlayersForMission(params) {
-  if (params.settings.round == 1 || params.settings.round == 3) {
-    params.settings.waiting.players = 2;
-  } else {
-    params.settings.waiting.players = 3;
-  }
+  params.settings.waiting.players = Properties.players[params.players.ids().length].roundPlayers[params.settings.round];
 }
 
 module.exports = {

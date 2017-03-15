@@ -8,7 +8,7 @@ const Player = ({player, settings, me, phase, actions}) => {
     "player": true,
     "traitor": player.isTraitor || false,
     "leader": player.isLeader || false,
-    "selectedForMission": settings.selectedPlayers.indexOf(player.id) > -1 || false
+    "selectedForMission": settings.selectedPlayers.indexOf(player.id) > -1 || player.onMission || false
   });
 
   return (

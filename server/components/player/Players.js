@@ -58,8 +58,51 @@ function Players() {
   }
 
   self.nextLeader = function() {
-    self.currentLeader = self.currentLeader == self.ids().length ? 1 : self.currentLeader++;
+    self.leader = self.leader == self.ids().length ? 1 : ++self.leader;
     setLeader();
+  }
+
+  self.setOnMission = function(ids) {
+    self.ids().filter(id => ids.indexOf(id) > -1).forEach(id => {
+      self.get(id).setOnMission(true);
+    });
+  }
+
+  self.voted = function() {
+    return self.ids().filter(id => {
+      return self.get(id).getVote() == null
+    }).length == 0;
+  }
+
+  self.approvedVote = function() {
+    return self.ids().filter(id => { return self.get(id).getVote() }).length > Math.floor(self.ids().length / 2);
+  }
+
+  self.getMissionPids = function() {
+    return self.ids().filter(id => {
+      return self.get(id).onMission;
+    });
+  }
+
+  self.getMission = function() {
+    let missionPlayers = self.getMissionPids();
+    let complete = missionPlayers.filter(id => {
+      return self.get(id).getMission() == null
+    }).length == 0;
+    let failures = missionPlayers.filter(id => {
+      return !self.get(id).getMission
+    }).length;
+    return {
+      complete: complete,
+      failures: failures
+    }
+  }
+
+  self.reset = function() {
+    self.ids().map(id => {
+      let player = self.set[id];
+      player.reset();
+    });
   }
 
   self.getPack = function(options) {

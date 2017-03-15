@@ -2,6 +2,7 @@
 
 var express = require('express');
 var http = require('http');
+var bodyParser = require('body-parser');
 var Route = require('./routes/Routes');
 var Sockets = require('./Sockets');
 var app = express();
@@ -9,6 +10,9 @@ var server = http.createServer(app);
 var Game = require('./components/game/Game');
 
 app.set('port', 3535);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

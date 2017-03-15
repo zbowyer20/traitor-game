@@ -3,6 +3,8 @@ var PhaseStart = require('./PhaseStart');
 var PhaseAllocation = require('./PhaseAllocation');
 var PhaseRevealAllies = require('./PhaseRevealAllies');
 var PhaseChoosePlayersForMission = require('./PhaseChoosePlayersForMission');
+var PhaseVote = require('./PhaseVote');
+var PhaseMission = require('./PhaseMission');
 
 module.exports = {
   current: {
@@ -10,12 +12,20 @@ module.exports = {
     phase: null
   },
 
-  continue() {
+  continue(data) {
+    // if this is the start of the game, or the current phase is complete
+    let options = {};
     if (!this.current.phase || this.current.phase.isComplete()) {
-      this.current.id = this.current.id ? this.list[this.current.id].next : "PHASE_START";
+      // update to the next, or first, phase
+      let next = this.current.id ? this.list[this.current.id].next(data) : {phase: "PHASE_START", options: {}};
+      options = next.options;
+      this.current.id = next.phase;
       this.current.phase = new this.list[this.current.id]["phase"]();
     }
-    return this.current.phase.next();
+    return {
+      move: this.current.phase.next(),
+      options: options
+    };
   },
 
   getCurrentPhase() {
@@ -25,19 +35,67 @@ module.exports = {
   list: {
     PHASE_START: {
       phase: PhaseStart,
-      next: "PHASE_ALLOCATION"
+      next: () => {
+        return {
+          phase: "PHASE_ALLOCATION",
+          options: {}
+        }
+      }
     },
     PHASE_ALLOCATION: {
       phase: PhaseAllocation,
-      next: "PHASE_REVEAL_ALLIES"
+      next: () => {
+        return {
+          phase: "PHASE_REVEAL_ALLIES",
+          options: {}
+        }
+      }
     },
     PHASE_REVEAL_ALLIES: {
       phase: PhaseRevealAllies,
-      next: "PHASE_CHOOSE_PLAYERS_FOR_MISSION"
+      next: () => {
+        return {
+          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION",
+          options: {}
+        }
+      }
     },
     PHASE_CHOOSE_PLAYERS_FOR_MISSION: {
       phase: PhaseChoosePlayersForMission,
-      next: "PHASE_VOTE"
+      next: () => {
+        return {
+          phase: "PHASE_VOTE",
+          options: {}
+        }
+      }
+    },
+    PHASE_VOTE: {
+      phase: PhaseVote,
+      next: (data) => {
+        return data.approve ? {
+            phase: "PHASE_MISSION",
+            options: {}
+        } : {
+          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION",
+          options: {
+            player: true,
+            reset: true
+          }
+        }
+      }
+    },
+    PHASE_MISSION: {
+      phase: PhaseMission,
+      next: () => {
+        return {
+          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION",
+          options: {
+            player: true,
+            reset: true,
+            round: true
+          }
+        }
+      }
     }
   }
 }

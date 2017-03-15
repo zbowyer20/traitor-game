@@ -14,5 +14,13 @@ module.exports = {
   PHASE_CHOOSE_PLAYERS_FOR_MISSION: {
     id: "PHASE_CHOOSE_PLAYERS_FOR_MISSION",
     label: "Choosing players for mission..."
+  },
+  PHASE_VOTE: {
+    id: "PHASE_VOTE",
+    label: "Voting..."
+  },
+  PHASE_MISSION: {
+    id: "PHASE_MISSION",
+    label: "On mission..."
   }
 };

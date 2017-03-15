@@ -7,7 +7,10 @@ function Player(id, isHost) {
     isHost: isHost,
     traitor: false,
     leader: false,
-    order: 0
+    order: 0,
+    onMission: false,
+    vote: null,
+    mission: null
   };
 
   self.setTraitor = function(isTraitor) {
@@ -35,6 +38,33 @@ function Player(id, isHost) {
     self.leader = leader;
   }
 
+  self.setOnMission = function(onMission) {
+    self.onMission = onMission;
+  }
+
+  self.setVote = function(vote) {
+    self.vote = vote;
+  }
+
+  self.getVote = function() {
+    return self.vote;
+  }
+
+  self.getMission = function() {
+    return self.mission;
+  }
+
+  self.setMission = function(mission) {
+    self.mission = mission;
+  }
+
+  self.reset = function() {
+    self.setVote(null);
+    self.setOnMission(false);
+    self.setLeader(false);
+    self.setMission(null);
+  }
+
   /**
   * Get the player's publically visible information
   * @returns {Object} currently containing the player's id, visible hand and cp.
@@ -45,7 +75,9 @@ function Player(id, isHost) {
       isHost: self.isHost,
       isTraitor: (!options.hideAllies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
       isLeader: self.leader,
-      order: self.order
+      onMission: self.onMission,
+      order: self.order,
+      vote: self.vote
     };
   }
 

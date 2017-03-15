@@ -12,6 +12,7 @@ export default function settingsReducer(state = initialState.settings, action) {
     }
     case types.TOGGLE_MISSION_PLAYER: {
       let selected = state.selectedPlayers.indexOf(action.id) > -1;
+      console.log(state.selectedPlayers);
       return Object.assign({}, state, {
         selectedPlayers: selected ? state.selectedPlayers.filter(id => {
             return id != action.id

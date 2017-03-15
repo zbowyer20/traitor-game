@@ -20,17 +20,6 @@ export function updateMe(data) {
   return {type: types.UPDATE_ME, data};
 }
 
-export function startGame() {
-  return dispatch => {
-    let url = 'http://localhost:3535/api/game/start';
-    fetch(url).then(response => {
-      console.log(response);
-    }).catch(error => {
-      throw(error);
-    });
-  };
-}
-
 export function choosePlayerForMission(id) {
   return dispatch => {
     dispatch({type: types.TOGGLE_MISSION_PLAYER, id});

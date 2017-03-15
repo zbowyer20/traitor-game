@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as gameActions from '../../actions/gameActions';
+import * as routeActions from '../../actions/routeActions';
 import Phase from '../status/Phase';
 import Players from '../player/Players';
 import Me from '../me/Me';
@@ -59,7 +60,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     // createCourse is a function taking one parameter, course
-    actions: bindActionCreators(Object.assign({}, gameActions), dispatch)
+    actions: bindActionCreators(Object.assign({}, gameActions, routeActions), dispatch)
   };
 }
 
