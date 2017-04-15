@@ -5,6 +5,7 @@ var PhaseRevealAllies = require('./PhaseRevealAllies');
 var PhaseChoosePlayersForMission = require('./PhaseChoosePlayersForMission');
 var PhaseVote = require('./PhaseVote');
 var PhaseMission = require('./PhaseMission');
+var PhaseReveal = require('./PhaseReveal');
 
 module.exports = {
   current: {
@@ -37,8 +38,7 @@ module.exports = {
       phase: PhaseStart,
       next: () => {
         return {
-          phase: "PHASE_ALLOCATION",
-          options: {}
+          phase: "PHASE_ALLOCATION"
         }
       }
     },
@@ -46,8 +46,7 @@ module.exports = {
       phase: PhaseAllocation,
       next: () => {
         return {
-          phase: "PHASE_REVEAL_ALLIES",
-          options: {}
+          phase: "PHASE_REVEAL_ALLIES"
         }
       }
     },
@@ -55,8 +54,7 @@ module.exports = {
       phase: PhaseRevealAllies,
       next: () => {
         return {
-          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION",
-          options: {}
+          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION"
         }
       }
     },
@@ -64,36 +62,37 @@ module.exports = {
       phase: PhaseChoosePlayersForMission,
       next: () => {
         return {
-          phase: "PHASE_VOTE",
-          options: {}
+          phase: "PHASE_VOTE"
         }
       }
     },
     PHASE_VOTE: {
       phase: PhaseVote,
       next: (data) => {
-        return data.approve ? {
-            phase: "PHASE_MISSION",
-            options: {}
+        return data.players.approvedVote() ? {
+            phase: "PHASE_MISSION"
+        } : data.settings.complete ? {
+          phase: "PHASE_REVEAL"
         } : {
-          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION",
-          options: {
-            player: true,
-            reset: true
-          }
+          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION"
         }
       }
     },
     PHASE_MISSION: {
       phase: PhaseMission,
+      next: (data) => {
+        return data.settings.complete ? {
+          phase: "PHASE_REVEAL"
+        } : {
+          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION"
+        }
+      }
+    },
+    PHASE_REVEAL: {
+      phase: PhaseReveal,
       next: () => {
         return {
-          phase: "PHASE_CHOOSE_PLAYERS_FOR_MISSION",
-          options: {
-            player: true,
-            reset: true,
-            round: true
-          }
+          phase: "PHASE_COMPLETE"
         }
       }
     }

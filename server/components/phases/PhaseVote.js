@@ -12,6 +12,18 @@ class PhaseVote extends Phase {
         parameters: {},
         emit: {},
         duration: -1
+      },
+      {
+        fn: Moves.updateMissionTracker,
+        parameters: {},
+        emit: {},
+        duration: 100
+      },
+      {
+        fn: Moves.updateComplete,
+        parameters: {},
+        emit: {},
+        duration: 100
       }
     ]);
   }

@@ -9,10 +9,15 @@ function Game() {
   let self = {
     players: new Players(),
     settings: {
-      round: 0,
+      mission: 0,
       ready: false,
       waiting: {
         selected: 0
+      },
+      rounds: {
+        current: 0,
+        score: [],
+        total: 5
       }
     }
   };
@@ -22,24 +27,18 @@ function Game() {
     self.settings.ready = Object.keys(Properties.players).indexOf("" + self.players.ids().length) > -1;
   }
 
+
   self.continue = function(data) {
-    let next = Phases.continue(data);
-    if (next.options.reset) {
-      self.players.reset();
-    }
-    if (next.options.player) {
-      self.players.nextLeader();
-    }
-    if (next.options.round) {
-      self.settings.round++;
-    }
-    let move = next.move;
-    move.parameters.players = self.players;
-    move.parameters.settings = self.settings;
-    move.fn.bind(null, move.parameters)();
-    Sockets.emitGame(self, move.emit);
-    if (move.duration > -1) {
-      setTimeout(self.continue, move.duration);
+    let parameters = {
+      players: self.players,
+      settings: self.settings
+    };
+    let next = Phases.continue(parameters);
+    next.move.parameters = Object.assign(next.move.parameters, parameters);
+    next.move.fn.bind(null, next.move.parameters)();
+    Sockets.emitGame(self, next.move.emit);
+    if (next.move.duration > -1) {
+      setTimeout(self.continue, next.move.duration);
     }
   }
 
@@ -54,15 +53,15 @@ function Game() {
 
   self.vote = function(id, approve) {
     self.players.get(id).setVote(approve);
+    Sockets.emitPrivate(this, {}, id);
     if (self.players.voted()) {
-      self.continue({
-        approve: self.players.approvedVote()
-      });
+      self.continue();
     }
   }
 
   self.mission = function(id, succeed) {
     self.players.get(id).setMission(succeed);
+    Sockets.emitPrivate(this, {}, id);
     let mission = self.players.getMission();
     if (mission.complete) {
       self.continue({
@@ -77,17 +76,18 @@ function Game() {
       settings: self.settings,
       players: self.players.getPack({
         owner: self.players.get(id),
-        hideAllies: options.hideAllies || false
+        hideAllies: options.hideAllies || false,
+        showTraitors: options.showTraitors || false
       })
     }
   }
 
   self.getPrivatePack = function(id, options) {
     return {
-      me: {
-        id: id,
-      }
-    }
+      me: self.players.get(id).getPack({
+        private: true
+      })
+    };
   }
 
   self.continue();

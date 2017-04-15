@@ -22,5 +22,9 @@ module.exports = {
   PHASE_MISSION: {
     id: "PHASE_MISSION",
     label: "On mission..."
+  },
+  PHASE_REVEAL: {
+    id: "PHASE_REVEAL",
+    label: "And the traitors were..."
   }
 };

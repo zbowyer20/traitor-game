@@ -1,9 +1,11 @@
 import React, {PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import {PhaseMessages} from '../../properties/GameProperties';
+
 const Phase = ({phase}) => {
   return (
     <div className="phase">
-      {phase}
+      {PhaseMessages[phase]}
     </div>
   );
 };

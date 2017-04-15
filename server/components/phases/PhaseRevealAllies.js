@@ -11,7 +11,7 @@ class PhaseRevealAllies extends Phase {
         fn: Moves.revealAllies,
         parameters: {},
         emit: {},
-        duration: 5000
+        duration: 1000
       }
     ]);
   }

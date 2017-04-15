@@ -7,6 +7,11 @@ export default {
     selectedPlayers: [],
     waiting: {
       selected: 0
+    },
+    rounds: {
+      current: 0,
+      score: [],
+      total: 0
     }
   },
   players: [],

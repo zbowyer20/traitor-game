@@ -73,11 +73,12 @@ function Player(id, isHost) {
     return {
       id: self.id,
       isHost: self.isHost,
-      isTraitor: (!options.hideAllies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
+      isTraitor: options.private || options.showTraitors || (!options.hideAllies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
       isLeader: self.leader,
       onMission: self.onMission,
       order: self.order,
-      vote: self.vote
+      vote: options.private ? self.vote : false,
+      mission: options.private ? self.mission : false
     };
   }
 

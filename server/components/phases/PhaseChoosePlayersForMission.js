@@ -8,6 +8,18 @@ class PhaseChoosePlayersForMission extends Phase {
   constructor() {
     super(Properties.PHASE_CHOOSE_PLAYERS_FOR_MISSION.id, [
       {
+        fn: Moves.resetPlayers,
+        parameters: {},
+        emit: {},
+        duration: 100
+      },
+      {
+        fn: Moves.nextLeader,
+        parameters: {},
+        emit: {},
+        duration: 100
+      },
+      {
         fn: Moves.choosePlayersForMission,
         parameters: {},
         emit: {},

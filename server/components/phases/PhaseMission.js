@@ -12,6 +12,24 @@ class PhaseMission extends Phase {
         parameters: {},
         emit: {},
         duration: -1
+      },
+      {
+        fn: Moves.updateScore,
+        parameters: {},
+        emit: {},
+        duration: 1000
+      },
+      {
+        fn: Moves.updateComplete,
+        parameters: {},
+        emit: {},
+        duration: 1000
+      },
+      {
+        fn: Moves.updateRound,
+        parameters: {},
+        emit: {},
+        duration: 1
       }
     ]);
   }

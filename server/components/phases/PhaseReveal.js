@@ -4,19 +4,19 @@ var Phase = require('./Phase');
 var Moves = require('../game/Moves');
 var Properties = require('../../constants/PhaseProperties');
 
-class PhaseAllocation extends Phase {
+class PhaseReveal extends Phase {
   constructor() {
-    super(Properties.PHASE_ALLOCATION.id, [
+    super(Properties.PHASE_REVEAL.id, [
       {
-        fn: Moves.setTraitors,
+        fn: Moves.reveal,
         parameters: {},
         emit: {
-          hideAllies: true,
+          showTraitors: true
         },
-        duration: 300
+        duration: 1000
       }
     ]);
   }
 }
 
-module.exports = PhaseAllocation;
+module.exports = PhaseReveal;

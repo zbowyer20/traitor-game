@@ -7,15 +7,15 @@ class Phase {
     this.id = id;
     this.label = Properties[id].label;
     this.stages = stages;
+    this.counter = 0;
   }
 
   next() {
-    let stage = this.stages.pop();
-    return stage;
+    return this.stages[this.counter++];
   }
 
   isComplete() {
-    return !this.stages.length;
+    return this.counter == this.stages.length;
   }
 
   getPack() {

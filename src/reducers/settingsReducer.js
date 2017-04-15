@@ -5,8 +5,9 @@ export default function settingsReducer(state = initialState.settings, action) {
   switch(action.type) {
     case types.UPDATE_SETTINGS: {
       return Object.assign({}, state, {
+        mission: action.data.mission,
         ready: action.data.ready,
-        round: action.data.round,
+        rounds: action.data.rounds,
         waiting: action.data.waiting
       });
     }

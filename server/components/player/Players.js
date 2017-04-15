@@ -6,11 +6,11 @@ var clone = require('clone');
 function Players() {
   var self = {
     set: {},
-    leader: 1
+    leader: 0
   };
 
   self.add = function(pid) {
-    self.set[pid] = Player(pid, !self.ids().length);
+    self.set[pid] = Player(pid, !self.ids().length, self.ids().length);
   }
 
   /**
@@ -47,7 +47,6 @@ function Players() {
       self.set[id].setOrder(i);
       i++;
     })
-    setLeader();
   }
 
   function setLeader() {
@@ -90,7 +89,7 @@ function Players() {
       return self.get(id).getMission() == null
     }).length == 0;
     let failures = missionPlayers.filter(id => {
-      return !self.get(id).getMission
+      return !self.get(id).getMission()
     }).length;
     return {
       complete: complete,
@@ -106,7 +105,7 @@ function Players() {
   }
 
   self.getPack = function(options) {
-    return self.ids().map(id => self.set[id].getPack(options));
+    return self.ids().map(id => self.set[id].getPack(options)).sort((a, b) => a.order - b.order);
   }
 
   return self;
