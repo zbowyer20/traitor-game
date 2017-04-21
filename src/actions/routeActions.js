@@ -74,3 +74,24 @@ export function mission(id, succeed) {
     });
   }
 }
+
+export function uploadImage(id, file) {
+  return dispatch => {
+    let url = 'http://localhost:3535/api/profile/image';
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: id,
+        file: file
+      })
+    }).then(response => {
+      console.log(response);
+    }).catch(error => {
+      throw(error);
+    });
+  }
+}

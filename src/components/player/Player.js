@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
+import Dropzone from 'react-dropzone';
 import ActionButton from '../actions/ActionButton';
 import TokenLeader from '../token/TokenLeader';
 import TokenMission from '../token/TokenMission';
@@ -36,7 +37,9 @@ const Player = ({player, settings, me, phase, actions}) => {
     <div className={classes}>
       {me.isLeader && phase.id == "PHASE_CHOOSE_PLAYERS_FOR_MISSION" && <ActionButton label="✓" options={{rounded: true, top: true, selected: selectedForMission()}} ev={() => actions.choosePlayerForMission(player.id)} />}
       <div className="player_image_container">
-        <img className="player_image" src="http://placehold.it/150x150" />
+        <Dropzone accept="image/jpeg, image/png" onDrop={actions.uploadImage.bind(this, player.id)}>
+          <img className="player_image" src={player.image} />
+        </Dropzone>
         {player.isLeader && <TokenLeader />}
         {selectedForMission() && <TokenMission />}
       </div>

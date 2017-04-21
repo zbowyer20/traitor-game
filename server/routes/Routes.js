@@ -29,6 +29,11 @@ function Routes(server, app, game) {
     game.mission(req.body.id, req.body.succeed);
     res.send();
   })
+
+  app.post('/api/profile/image', function(req, res) {
+    game.setPlayerImage(req.body.id, req.body.file[0]);
+    res.send();
+  })
 }
 
 module.exports = Routes;

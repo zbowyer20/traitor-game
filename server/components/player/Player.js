@@ -4,6 +4,9 @@ var shortid = require('shortid');
 function Player(id, isHost) {
   var self = {
     id: id,
+    image: {
+      preview: "http://placehold.it/150x150"
+    },
     isHost: isHost,
     traitor: false,
     leader: false,
@@ -12,6 +15,14 @@ function Player(id, isHost) {
     vote: null,
     mission: null
   };
+
+  self.setImage = function(file) {
+    self.image = file;
+  };
+
+  self.getImage = function() {
+    return self.image;
+  }
 
   self.setTraitor = function(isTraitor) {
     self.traitor = isTraitor;
@@ -72,6 +83,7 @@ function Player(id, isHost) {
   self.getPack = function(options) {
     return {
       id: self.id,
+      image: self.image.preview,
       isHost: self.isHost,
       isTraitor: options.private || options.showTraitors || (!options.hideAllies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
       isLeader: self.leader,

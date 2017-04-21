@@ -42,6 +42,11 @@ function Game() {
     }
   }
 
+  self.setPlayerImage = function(id, file) {
+    self.players.setImage(id, file);
+    Sockets.emitGame(self, {});
+  }
+
   self.setPlayersForMission = function(ids) {
     self.players.setOnMission(ids);
     self.settings.waiting.selected = self.players.ids().length;
@@ -71,7 +76,7 @@ function Game() {
   }
 
   self.getPublicPack = function(id, options) {
-    return {
+    let ret = {
       phase: Phases.getCurrentPhase().getPack(),
       settings: self.settings,
       players: self.players.getPack({
@@ -80,6 +85,7 @@ function Game() {
         showTraitors: options.showTraitors || false
       })
     }
+    return ret;
   }
 
   self.getPrivatePack = function(id, options) {

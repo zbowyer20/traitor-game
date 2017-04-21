@@ -30,6 +30,10 @@ function Players() {
     return Object.keys(self.set);
   }
 
+  self.setImage = function(id, file) {
+    self.set[id].setImage(file);
+  }
+
   function getShuffledIds() {
     return shuffle(clone(self.ids()));
   }
