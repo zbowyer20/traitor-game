@@ -46,7 +46,7 @@ function Game() {
 
   self.setPlayerImage = function(id, file) {
     self.players.setImage(id, file.preview);
-    Sockets.emitGame(self, {});
+    Sockets.emitGame(self, {public: { players: [SocketEmissions.IMAGE]}});
   }
 
   self.setPlayersForMission = function(ids) {
