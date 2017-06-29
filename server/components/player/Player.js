@@ -1,14 +1,13 @@
 'use strict';
 var shortid = require('shortid');
+var SocketEmissions = require('../../constants/SocketEmissions');
 
 function Player(id, isHost) {
   var self = {
     id: id,
-    image: {
-      preview: "http://placehold.it/150x150"
-    },
+    image: "http://placehold.it/150x150",
     isHost: isHost,
-    traitor: false,
+    traitor: null,
     leader: false,
     order: 0,
     onMission: false,
@@ -53,6 +52,10 @@ function Player(id, isHost) {
     self.onMission = onMission;
   }
 
+  self.suggestedForMission = function() {
+    return self.onMission;
+  }
+
   self.setVote = function(vote) {
     self.vote = vote;
   }
@@ -80,18 +83,55 @@ function Player(id, isHost) {
   * Get the player's publically visible information
   * @returns {Object} currently containing the player's id, visible hand and cp.
   */
-  self.getPack = function(options) {
-    return {
-      id: self.id,
-      image: self.image.preview,
-      isHost: self.isHost,
-      isTraitor: options.private || options.showTraitors || (!options.hideAllies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
-      isLeader: self.leader,
-      onMission: self.onMission,
-      order: self.order,
-      vote: options.private ? self.vote : false,
-      mission: options.private ? self.mission : false
+  self.getPack = function(asker, options) {
+    let ret = {
+      id: self.id
     };
+    console.log("And the options are...");
+    console.log(options);
+    if (options.indexOf(SocketEmissions.IMAGE) > -1) {
+      ret.image = self.getImage();
+    }
+    if (options.indexOf(SocketEmissions.HOST) > -1) {
+      ret.isHost = self.isHost;
+    }
+    if (options.indexOf(SocketEmissions.IS_TRAITOR) > -1) {
+      ret.isTraitor = self.isTraitor();
+    }
+    if (options.indexOf(SocketEmissions.MISSION_SUGGESTION) > -1) {
+      ret.suggestedForMission = self.suggestedForMission();
+    }
+    if (options.indexOf(SocketEmissions.MISSION_LEADER) > -1) {
+      console.log("Am I a leader?");
+      ret.isLeader = self.isLeader();
+    }
+    if (options.indexOf(SocketEmissions.ALLIES) > -1) {
+      ret.isTraitor = asker.isTraitor() ? self.isTraitor() : (asker.id == self.id ? false : null);
+    }
+    if (options.indexOf(SocketEmissions.PLAYER_ORDER) > -1 || true) {
+      ret.order = self.getOrder();
+    }
+    if (options.indexOf(SocketEmissions.MISSION_PLAYERS) > -1) {
+      ret.onMission = self.onMission;
+    }
+    if (options.indexOf(SocketEmissions.MISSION_VOTE) > -1) {
+      ret.vote = self.vote;
+    }
+    if (options.indexOf(SocketEmissions.MISSION_DECISION) > -1) {
+      ret.mission = self.mission;
+    }
+    return ret;
+    // return {
+    //   id: self.id,
+    //   image: self.image.preview,
+    //   isHost: self.isHost,
+    //   isTraitor: options.private || options.showTraitors || (!options.hideAllies && options.owner.isTraitor()) || options.owner.id == self.id ? self.isTraitor() : false,
+    //   isLeader: self.leader,
+    //   onMission: self.onMission,
+    //   order: self.order,
+    //   vote: options.private ? self.vote : false,
+    //   mission: options.private ? self.mission : false
+    // };
   }
 
   return self;

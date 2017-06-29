@@ -21,6 +21,8 @@ function Routes(server, app, game) {
   });
 
   app.post('/api/game/vote', function(req, res) {
+    console.log("Voting route");
+    console.log(req.body);
     game.vote(req.body.id, req.body.approve);
     res.send();
   });

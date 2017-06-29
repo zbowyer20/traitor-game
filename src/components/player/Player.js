@@ -15,7 +15,7 @@ const Player = ({player, settings, me, phase, actions}) => {
   });
 
   function selectedForMission() {
-    return settings.selectedPlayers.indexOf(player.id) > -1 || player.onMission;
+    return settings.selectedPlayers.indexOf(player.id) > -1 || player.suggestedForMission;
   }
 
   function getFaction(player, me) {
@@ -28,10 +28,10 @@ const Player = ({player, settings, me, phase, actions}) => {
     }
   }
 
-  console.log("About today");
-  console.log(me);
-  console.log(me.isLeader);
-  console.log(phase.id);
+  console.log("Player selected for mission: " + player.id);
+  console.log(settings.selectedPlayers);
+  console.log(player);
+  console.log(selectedForMission());
 
   return (
     <div className={classes}>

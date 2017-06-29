@@ -5,7 +5,10 @@ export default function (store) {
   const socket = io('http://localhost:3535');
 
   socket.on('update', function(data) {
+    console.log("Data from update");
+    console.log(data);
     if (data.phase) {
+      console.log("Here we are, updating a phase");
       store.dispatch(actions.updatePhase(data.phase));
     }
     if (data.players) {
@@ -16,6 +19,7 @@ export default function (store) {
       store.dispatch(actions.updateSettings(data.settings))
     }
     if (data.me) {
+      console.log("Got data for me");
       store.dispatch(actions.updateMe(data.me));
     }
   })

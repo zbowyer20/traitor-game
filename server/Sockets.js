@@ -1,6 +1,7 @@
 'use strict';
 
 var Player = require('./components/player/Player');
+var SocketEmissions = require('./constants/SocketEmissions');
 
 var Sockets = {
   list: {},
@@ -12,7 +13,16 @@ var Sockets = {
       console.log("Got new connection from: " + socket.id);
       Sockets.list[socket.id] = socket;
       game.addPlayer(socket.id);
-      Sockets.emitGame(game, socket.id);
+      Sockets.emitGame(game, {
+        public: {
+          settings: [SocketEmissions.READY],
+          players: [SocketEmissions.ID, SocketEmissions.IMAGE, SocketEmissions.HOST],
+          phase: [SocketEmissions.PHASE_UPDATE]
+        },
+        private: {
+          players: [SocketEmissions.ID, SocketEmissions.IMAGE, SocketEmissions.HOST, SocketEmissions.IS_TRAITOR]
+        }
+      });
 
       // when receiving a flag from a player that they are ready, flag them
       // in game
@@ -47,14 +57,28 @@ var Sockets = {
   },
 
   emitPrivate: function(game, options, id) {
+    console.log("Emitting a private pack to: " + id);
+    console.log(options);
+    console.log(game.getPrivatePack(id, options));
     Sockets.emit(id, game.getPrivatePack(id, options));
   },
 
   emitGame: function(game, options) {
     let ids = game.players.ids();
     for (var i = 0; i < ids.length; i++) {
-      Sockets.emitPublic(game, options, ids[i])
-      Sockets.emitPrivate(game, options, ids[i]);
+      if (options.public) {
+        Sockets.emitPublic(game, options.public, ids[i])
+      }
+      if (options.private) {
+        Sockets.emitPrivate(game, options.private, ids[i]);
+      }
+    }
+  },
+
+  emitToAll: function(data) {
+    for (var i = 0; i < Object.keys(Sockets.list).length; i++) {
+      let id = Object.keys(Sockets.list)[i];
+      Sockets.emit(id, data);
     }
   }
 }

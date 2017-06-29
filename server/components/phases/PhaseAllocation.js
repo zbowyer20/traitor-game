@@ -3,6 +3,7 @@
 var Phase = require('./Phase');
 var Moves = require('../game/Moves');
 var Properties = require('../../constants/PhaseProperties');
+var SocketEmissions = require('../../constants/SocketEmissions');
 
 class PhaseAllocation extends Phase {
   constructor() {
@@ -11,7 +12,9 @@ class PhaseAllocation extends Phase {
         fn: Moves.setTraitors,
         parameters: {},
         emit: {
-          hideAllies: true,
+          private: {
+            players: [SocketEmissions.IS_TRAITOR]
+          }
         },
         duration: 300
       }

@@ -2,6 +2,8 @@ import React, {PropTypes} from 'react';
 import ActionButton from './ActionButton';
 
 const Actions = ({player, game, actions}) => {
+  console.log("settings");
+  console.log(game.settings);
 
   return (
     <div className="actions">

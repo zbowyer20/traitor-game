@@ -20,6 +20,7 @@ function resetPlayers(params) {
 }
 
 function nextLeader(params) {
+  console.log("Setting our next leader");
   params.players.nextLeader();
 }
 

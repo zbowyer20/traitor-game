@@ -3,6 +3,7 @@
 var Phase = require('./Phase');
 var Moves = require('../game/Moves');
 var Properties = require('../../constants/PhaseProperties');
+var SocketEmissions = require('../../constants/SocketEmissions');
 
 class PhaseStart extends Phase {
   constructor() {
@@ -16,7 +17,12 @@ class PhaseStart extends Phase {
       {
         fn: Moves.setPlayerOrder,
         parameters: {},
-        emit: {},
+        emit: {
+          public: {
+            players: [SocketEmissions.PLAYER_ORDER],
+            settings: [SocketEmissions.SCORE]
+          }
+        },
         duration: 1000
       }
     ]);

@@ -4,12 +4,7 @@ import initialState from './initialState';
 export default function settingsReducer(state = initialState.settings, action) {
   switch(action.type) {
     case types.UPDATE_SETTINGS: {
-      return Object.assign({}, state, {
-        mission: action.data.mission,
-        ready: action.data.ready,
-        rounds: action.data.rounds,
-        waiting: action.data.waiting
-      });
+      return Object.assign({}, state, action.data);
     }
     case types.TOGGLE_MISSION_PLAYER: {
       let selected = state.selectedPlayers.indexOf(action.id) > -1;

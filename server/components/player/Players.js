@@ -56,12 +56,16 @@ function Players() {
   function setLeader() {
     self.ids().map(id => {
       let player = self.set[id];
+      console.log("Setting leader with id: " + id + " to ");
+      console.log(player.getOrder() == self.leader);
       player.setLeader(player.getOrder() == self.leader);
     })
   }
 
   self.nextLeader = function() {
+    console.log("The next leader is...");
     self.leader = self.leader == self.ids().length ? 1 : ++self.leader;
+    console.log(self.leader);
     setLeader();
   }
 
@@ -108,8 +112,8 @@ function Players() {
     });
   }
 
-  self.getPack = function(options) {
-    return self.ids().map(id => self.set[id].getPack(options)).sort((a, b) => a.order - b.order);
+  self.getPack = function(asker, options) {
+    return self.ids().map(id => self.set[id].getPack(asker, options)).sort((a, b) => a.order - b.order);
   }
 
   return self;

@@ -6,6 +6,7 @@ var PhaseChoosePlayersForMission = require('./PhaseChoosePlayersForMission');
 var PhaseVote = require('./PhaseVote');
 var PhaseMission = require('./PhaseMission');
 var PhaseReveal = require('./PhaseReveal');
+var Sockets = require('../../Sockets');
 
 module.exports = {
   current: {
@@ -22,6 +23,11 @@ module.exports = {
       options = next.options;
       this.current.id = next.phase;
       this.current.phase = new this.list[this.current.id]["phase"]();
+      console.log("The current phase is:");
+      console.log(this.current.phase.getPack());
+      Sockets.emitToAll({
+        phase: this.current.phase.getPack()
+      });
     }
     return {
       move: this.current.phase.next(),

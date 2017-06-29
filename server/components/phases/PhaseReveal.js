@@ -3,6 +3,7 @@
 var Phase = require('./Phase');
 var Moves = require('../game/Moves');
 var Properties = require('../../constants/PhaseProperties');
+var SocketEmissions = require('../../constants/SocketEmissions');
 
 class PhaseReveal extends Phase {
   constructor() {
@@ -11,7 +12,9 @@ class PhaseReveal extends Phase {
         fn: Moves.reveal,
         parameters: {},
         emit: {
-          showTraitors: true
+          public: {
+            players: [SocketEmissions.IS_TRAITOR]
+          }
         },
         duration: 1000
       }
